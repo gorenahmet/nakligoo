@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Motoraba — Araç Hizmetleri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a0f1e;
+    --navy2: #0d1530;
+    --navy3: #111b3a;
+    --steel: #1a2550;
+    --accent: #3b82f6;
+    --accent2: #60a5fa;
+    --cyan: #06b6d4;
+    --white: #f0f4ff;
+    --muted: #6b7fa8;
+    --card: rgba(255,255,255,0.03);
+    --border: rgba(59,130,246,0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transition: transform 0.1s ease;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid rgba(59,130,246,0.5);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transition: transform 0.18s ease, width 0.2s, height 0.2s;
+  }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.35;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    background: linear-gradient(to bottom, rgba(10,15,30,0.95), transparent);
+    backdrop-filter: blur(2px);
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 3px;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  nav ul { list-style: none; display: flex; gap: 36px; }
+  nav ul a {
+    text-decoration: none; color: var(--muted);
+    font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;
+    transition: color 0.3s;
+    font-family: 'Space Mono', monospace;
+  }
+  nav ul a:hover { color: var(--accent2); }
+  .nav-btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent2);
+    padding: 8px 22px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: none;
+    transition: all 0.3s;
+  }
+  .nav-btn:hover {
+    background: var(--accent);
+    color: var(--navy);
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Grid lines background */
+  #hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(59,130,246,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59,130,246,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 6vw, 5rem);
+    line-height: 0.98;
+    letter-spacing: 2px;
+    max-width: 900px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.35s forwards;
+  }
+  .hero-title em {
+    font-style: normal;
+    -webkit-text-stroke: 1.5px var(--accent);
+    color: transparent;
+  }
+
+  .hero-sub {
+    margin-top: 32px;
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 440px;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.55s forwards;
+  }
+
+  .hero-ctas {
+    display: flex; gap: 16px; margin-top: 44px;
+    opacity: 0; animation: fadeUp 0.9s 0.7s forwards;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--navy);
+    padding: 14px 36px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: none; cursor: none;
+    transition: all 0.3s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+  }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 14px 36px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: none;
+    transition: all 0.3s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent2); }
+
+  /* Floating car visual */
+  .hero-visual {
+    position: absolute; right: -60px; top: 50%;
+    transform: translateY(-50%);
+    width: 600px; height: 400px;
+    opacity: 0; animation: fadeLeft 1.2s 0.8s forwards;
+  }
+  .car-svg {
+    width: 100%; height: 100%;
+    filter: drop-shadow(0 0 60px rgba(59,130,246,0.3));
+  }
+
+  /* Glow orb */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(80px);
+  }
+  .orb-1 { width: 500px; height: 500px; background: rgba(59,130,246,0.1); top: -100px; right: 100px; }
+  .orb-2 { width: 300px; height: 300px; background: rgba(6,182,212,0.07); bottom: 50px; left: 200px; }
+
+  /* Scroll indicator */
+  .scroll-hint {
+    position: absolute; bottom: 36px; left: 48px;
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 3px;
+    color: var(--muted); text-transform: uppercase;
+    opacity: 0; animation: fadeUp 1s 1.2s forwards;
+  }
+  .scroll-line {
+    width: 40px; height: 1px;
+    background: linear-gradient(to right, var(--accent), transparent);
+    position: relative; overflow: hidden;
+  }
+  .scroll-line::after {
+    content: ''; position: absolute; inset: 0;
+    background: var(--accent2);
+    animation: scanLine 2s infinite;
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    display: flex; gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin: 0 48px;
+    opacity: 0; animation: fadeUp 1s 1s forwards;
+  }
+  .stat {
+    flex: 1; padding: 28px 0;
+    display: flex; flex-direction: column; gap: 4px;
+    border-right: 1px solid var(--border);
+    padding-left: 32px;
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem; letter-spacing: 2px;
+    color: var(--accent2);
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  /* ── SECTION BASE ── */
+  section { position: relative; z-index: 1; }
+  /* Sabit menü altında kalmasın diye anchor kayma payı */
+  section[id] { scroll-margin-top: 96px; }
+  /* Hakkımızda & İş Ortaklığı: aynı iç boşluk + arkaplan kare deseni (hero ile uyumlu) */
+  #us, #partner {
+    padding: 120px 48px;
+    background-color: var(--navy2);
+    background-image:
+      linear-gradient(rgba(59,130,246,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59,130,246,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--cyan);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    letter-spacing: 2px; line-height: 1;
+    margin-bottom: 16px;
+  }
+  .section-desc {
+    color: var(--muted); font-size: 0.95rem;
+    line-height: 1.8; max-width: 500px;
+  }
+
+  /* ── SERVICES ── */
+  #services {
+    padding: 120px 48px;
+    background: linear-gradient(to bottom, var(--navy), var(--navy2));
+  }
+  .services-header {
+    display: flex; justify-content: space-between;
+    align-items: flex-end; margin-bottom: 64px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .service-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 48px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s;
+    cursor: none;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(59,130,246,0.07), transparent);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .service-card:hover { border-color: rgba(59,130,246,0.5); transform: translateY(-4px); }
+  .service-card:hover::before { opacity: 1; }
+
+  .service-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem; line-height: 1;
+    color: rgba(59,130,246,0.07);
+    position: absolute; top: 16px; right: 24px;
+  }
+  .service-icon {
+    width: 52px; height: 52px;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 28px;
+    transition: border-color 0.3s;
+  }
+  .service-card:hover .service-icon { border-color: var(--accent); }
+  .service-icon svg { width: 24px; height: 24px; stroke: var(--accent2); fill: none; stroke-width: 1.5; }
+
+  .service-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.9rem; letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+  .service-desc {
+    color: var(--muted); font-size: 0.88rem;
+    line-height: 1.7; margin-bottom: 28px;
+  }
+  .service-features {
+    list-style: none; display: flex; flex-direction: column; gap: 8px;
+  }
+  .service-features li {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 1px;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .service-features li::before {
+    content: '';
+    width: 16px; height: 1px;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .service-tag {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(to right, var(--accent), var(--cyan));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .service-card:hover .service-tag { transform: scaleX(1); }
+
+  /* ── HOW IT WORKS ── */
+  #how {
+    padding: 120px 48px;
+    background: var(--navy2);
+  }
+  .steps-container {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: start;
+    margin-top: 64px;
+  }
+  .step {
+    display: flex; gap: 24px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem; letter-spacing: 2px;
+    color: var(--accent);
+    opacity: 0.5; line-height: 1;
+    min-width: 56px;
+  }
+  .step-content h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem; letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .step-content p {
+    color: var(--muted); font-size: 0.88rem; line-height: 1.7;
+  }
+  .steps-visual {
+    background: linear-gradient(135deg, var(--navy3), var(--steel));
+    border: 1px solid var(--border);
+    padding: 48px;
+    position: sticky; top: 120px;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .phone-mockup {
+    width: 100%; aspect-ratio: 9/16;
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  .phone-notch {
+    width: 120px; height: 28px;
+    background: var(--navy3);
+    border-radius: 0 0 16px 16px;
+    margin: 0 auto;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .notch-dot { width: 8px; height: 8px; background: var(--steel); border-radius: 50%; }
+  .notch-bar { width: 40px; height: 4px; background: var(--steel); border-radius: 2px; }
+  .phone-screen {
+    flex: 1; padding: 20px 16px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .app-header-mock {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem; letter-spacing: 3px;
+    color: var(--accent2);
+  }
+  .app-card-mock {
+    background: var(--navy3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 0.7rem; color: var(--muted);
+  }
+  .app-card-mock strong {
+    display: block;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 1px;
+    color: var(--white); margin-bottom: 6px;
+  }
+  .mock-bar {
+    height: 4px; background: var(--border);
+    border-radius: 2px; margin-top: 8px; overflow: hidden;
+  }
+  .mock-bar-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--accent), var(--cyan));
+    border-radius: 2px;
+  }
+  .mock-btn {
+    background: var(--accent);
+    color: var(--navy);
+    border-radius: 4px;
+    padding: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 1px;
+    text-align: center; text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  /* ── APP SECTION ── */
+  #app {
+    padding: 120px 48px;
+    background: linear-gradient(to bottom, var(--navy2), var(--navy));
+    position: relative;
+    overflow: hidden;
+  }
+  #app::before {
+    content: '';
+    position: absolute;
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(59,130,246,0.06), transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+  }
+  .app-layout {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+    position: relative; z-index: 1;
+  }
+  .app-features { display: flex; flex-direction: column; gap: 0; }
+  .app-feature {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex; gap: 20px; align-items: flex-start;
+    cursor: none;
+    transition: padding-left 0.3s;
+  }
+  .app-feature:hover { padding-left: 12px; }
+  .app-feature:last-child { border-bottom: none; }
+  .feat-icon {
+    width: 36px; height: 36px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cyan);
+  }
+  .feat-icon svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+  .feat-text h4 {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem; letter-spacing: 1px;
+    margin-bottom: 6px; color: var(--white);
+  }
+  .feat-text p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+  .app-badges { display: flex; gap: 12px; margin-top: 40px; }
+  .badge {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 12px 20px;
+    cursor: none;
+    transition: border-color 0.3s;
+  }
+  .badge:hover { border-color: var(--accent); }
+  .badge svg { width: 20px; height: 20px; fill: var(--muted); }
+  .badge span { font-size: 0.75rem; color: var(--muted); font-family: 'Space Mono', monospace; letter-spacing: 1px; }
+
+  /* Big phones visual */
+  .phones-visual {
+    display: flex; gap: 20px; align-items: flex-end;
+    justify-content: center;
+  }
+  .big-phone {
+    width: 160px;
+    background: linear-gradient(135deg, var(--navy3), var(--steel));
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: 12px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 60px rgba(59,130,246,0.1);
+    animation: float 4s ease-in-out infinite;
+  }
+  .big-phone:nth-child(2) {
+    width: 180px;
+    animation-delay: -1s;
+  }
+  .big-phone:nth-child(3) {
+    width: 140px;
+    animation-delay: -2.5s;
+  }
+  .bp-inner {
+    background: var(--navy);
+    border-radius: 20px;
+    aspect-ratio: 9/18;
+    padding: 16px 12px;
+    display: flex; flex-direction: column; gap: 8px;
+    overflow: hidden;
+  }
+  .bp-topbar {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .bp-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+  .bp-title { font-family: 'Bebas Neue', sans-serif; font-size: 0.8rem; letter-spacing: 2px; color: var(--accent2); }
+  .bp-card {
+    background: var(--navy3);
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 0.5rem;
+    color: var(--muted);
+  }
+  .bp-card-title { font-family: 'Space Mono', monospace; font-size: 0.55rem; color: var(--white); margin-bottom: 4px; }
+  .bp-bar { height: 3px; background: var(--border); border-radius: 2px; margin-top: 6px; }
+  .bp-bar-fill { height: 100%; background: linear-gradient(to right, var(--accent), var(--cyan)); border-radius: 2px; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 48px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--navy);
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem; letter-spacing: 3px;
+  }
+  .footer-logo span { color: var(--accent); }
+  footer p { font-size: 0.75rem; color: var(--muted); font-family: 'Space Mono', monospace; }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a {
+    text-decoration: none; color: var(--muted);
+    font-size: 0.7rem; font-family: 'Space Mono', monospace;
+    letter-spacing: 1px; transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--accent2); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeLeft {
+    from { opacity: 0; transform: translate(40px, -50%); }
+    to { opacity: 0.85; transform: translate(0, -50%); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-16px); }
+  }
+  @keyframes scanLine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  /* Reveal on scroll */
+  .reveal {
+    opacity: 0; transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    nav ul { display: none; }
+    #hero { padding: 100px 24px 60px; }
+    .hero-visual { display: none; }
+    .stats-bar { margin: 0 24px; flex-wrap: wrap; }
+    .stat { min-width: 50%; }
+    #services, #how, #app, #us, #partner { padding: 80px 24px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .services-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .steps-container { grid-template-columns: 1fr; }
+    .app-layout { grid-template-columns: 1fr; }
+    .phones-visual { display: none; }
+    footer { flex-direction: column; gap: 24px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Moto<span>Raba</span></a>
+  <ul>
+    <li><a href="services.html">Hizmetler</a></li>
+    <li><a href="how.html">Nasıl Çalışır</a></li>
+    <li><a href="app.html">Uygulama</a></li>
+    <li><a href="us.html">Hakkımızda</a></li>
+    <li><a href="partner.html">İş Ortaklığı</a></li>
+  </ul>
+
+  <button class="nav-btn"><a href="mailto:info@motoraba.com" style="text-decoration: none; color: inherit;">Bize Ulaşın</a></button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="hero-eyebrow">// MotoRaba</div>
+  <h1 class="hero-title">
+    Yakında<br>
+    <em>MOTORABA</em><br> Uygulamamız ile
+    Android ve İOS<br> Platformlarında<br> Yerimizi Alıyoruz
+  </h1>
+  <p class="hero-sub">İster bir aracınız ister daha fazla aracınız için tüm Türkiye'de yaygın İş Ortaklarımız ile hizmet vermeye başlayacağız.</p>
+
+  <div class="hero-ctas">
+    <button class="btn-primary">Hemen Başla</button>
+    <button class="btn-ghost"><a href="how.html" style="text-decoration: none; color: inherit;">Nasıl Çalışır?</a></button>
+  </div>
+
+  <!-- Car SVG illustration -->
+  <div class="hero-visual">
+    <svg class="car-svg" viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Car body -->
+      <path d="M80 200 L80 170 L140 130 L220 110 L380 110 L460 140 L520 170 L520 200 Z" fill="rgba(26,37,80,0.8)" stroke="rgba(59,130,246,0.5)" stroke-width="1.5"/>
+      <!-- Roof -->
+      <path d="M160 170 L200 130 L380 130 L420 170 Z" fill="rgba(17,27,58,0.9)" stroke="rgba(59,130,246,0.3)" stroke-width="1"/>
+      <!-- Windows -->
+      <path d="M175 168 L205 138 L295 138 L295 168 Z" fill="rgba(59,130,246,0.12)" stroke="rgba(59,130,246,0.4)" stroke-width="1"/>
+      <path d="M305 168 L305 138 L395 138 L415 168 Z" fill="rgba(59,130,246,0.12)" stroke="rgba(59,130,246,0.4)" stroke-width="1"/>
+      <!-- Wheels -->
+      <circle cx="160" cy="204" r="32" fill="rgba(10,15,30,0.9)" stroke="rgba(59,130,246,0.5)" stroke-width="1.5"/>
+      <circle cx="160" cy="204" r="18" fill="rgba(26,37,80,0.8)" stroke="rgba(96,165,250,0.6)" stroke-width="1"/>
+      <circle cx="160" cy="204" r="6" fill="rgba(59,130,246,0.8)"/>
+      <circle cx="440" cy="204" r="32" fill="rgba(10,15,30,0.9)" stroke="rgba(59,130,246,0.5)" stroke-width="1.5"/>
+      <circle cx="440" cy="204" r="18" fill="rgba(26,37,80,0.8)" stroke="rgba(96,165,250,0.6)" stroke-width="1"/>
+      <circle cx="440" cy="204" r="6" fill="rgba(59,130,246,0.8)"/>
+      <!-- Ground line -->
+      <line x1="40" y1="236" x2="560" y2="236" stroke="rgba(59,130,246,0.2)" stroke-width="1"/>
+      <!-- Headlight glow -->
+      <ellipse cx="520" cy="175" rx="20" ry="10" fill="rgba(96,165,250,0.3)" filter="blur(4px)"/>
+      <circle cx="520" cy="175" r="6" fill="rgba(96,165,250,0.8)"/>
+      <!-- Scanlines detail -->
+      <line x1="80" y1="185" x2="520" y2="185" stroke="rgba(59,130,246,0.08)" stroke-width="1"/>
+      <line x1="80" y1="195" x2="520" y2="195" stroke="rgba(59,130,246,0.08)" stroke-width="1"/>
+      <!-- Grid floor -->
+      <line x1="40" y1="240" x2="560" y2="240" stroke="rgba(59,130,246,0.1)" stroke-width="0.5"/>
+      <line x1="40" y1="250" x2="560" y2="250" stroke="rgba(59,130,246,0.07)" stroke-width="0.5"/>
+      <line x1="40" y1="260" x2="560" y2="260" stroke="rgba(59,130,246,0.04)" stroke-width="0.5"/>
+    </svg>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    Keşfet
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar reveal" style="justify-content:center;">
+  <div class="stat" style="border-right:none; padding-left:0; align-items:center; text-align:center;">
+    <span class="stat-num">7/24</span>
+    <span class="stat-label">Kesintisiz Hizmet</span>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <a href="#top" class="logo">Moto<span>Raba</span></a>
+  <p>Motoraba Otomotiv Hizmetleri Lojistik Ticaret A.Ş.</p>
+  <p>© 2026 Motoraba. Tüm hakları saklıdır.</p>
+  <div class="footer-links">
+    <a href="gizlilik-politikasi.html">Gizlilik Politikası</a>
+    <a href="kvkk.html">KVKK</a>
+    <!-- <a href="#">Koşullar</a> --> <!-- Koşullar sekmesini şimdilik kaldırdım. -->
+    <a href="iletisim.html">İletişim</a>
+    <a href="delaccount.html">Hesap Silme</a>
+  </div>
+</footer>
+
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 5}px, ${my - 5}px)`;
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('button, a, .service-card, .app-feature, .badge').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform += ' scale(1.8)';
+      ring.style.width = '56px'; ring.style.height = '56px';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '36px'; ring.style.height = '36px';
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Parallax orbs
+  document.addEventListener('mousemove', e => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 30;
+    const y = (e.clientY / window.innerHeight - 0.5) * 30;
+    document.querySelectorAll('.orb').forEach((orb, i) => {
+      const f = i === 0 ? 1 : -0.6;
+      orb.style.transform = `translate(${x * f}px, ${y * f}px)`;
+    });
+  });
+
+  // Stats bar - sadece 7/24 kaldı, counter animasyonu gerekmez
+  const statsBar = document.querySelector('.stats-bar');
+  if (statsBar) statsBar.classList.add('visible');
+</script>
+</body>
+</html>
