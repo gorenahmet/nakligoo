@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  ŞABLON NOTU (ziyaretçilere görünmez):
+  Aşağıdaki metin standart bir gizlilik politikası şablonudur.
+  Lütfen mobil uygulamanızdaki RESMİ gizlilik politikası metniyle
+  değiştirin veya köşeli parantezli [...] alanları doldurun.
+  ============================================================
+-->
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gizlilik Politikası—Motoraba</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a0f1e;
+    --navy2: #0d1530;
+    --navy3: #111b3a;
+    --accent: #3b82f6;
+    --accent2: #60a5fa;
+    --cyan: #06b6d4;
+    --white: #f0f4ff;
+    --text: rgba(240,244,255,0.82);
+    --muted: #6b7fa8;
+    --border: rgba(59,130,246,0.18);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--navy);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: linear-gradient(to bottom, rgba(10,15,30,0.97), rgba(10,15,30,0.85));
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.7rem; letter-spacing: 3px;
+    color: var(--white); text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  .back-link {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    border: 1px solid var(--border); padding: 9px 18px;
+    transition: all 0.3s;
+  }
+  .back-link:hover { color: var(--accent2); border-color: var(--accent); }
+
+  /* ── CONTENT ── */
+  .legal-wrap {
+    position: relative; z-index: 1;
+    max-width: 820px; margin: 0 auto;
+    padding: 80px 24px 100px;
+  }
+  .eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.0rem; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--cyan); margin-bottom: 16px;
+  }
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.6rem, 3vw, 2rem);
+    line-height: 1; letter-spacing: 2px;
+    color: var(--white); margin-bottom: 14px;
+  }
+  .updated {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.99rem; letter-spacing: 1px; color: var(--muted);
+    padding-bottom: 28px; margin-bottom: 36px;
+    border-bottom: 1px solid var(--border);
+  }
+  .intro { color: var(--text); margin-bottom: 8px; }
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem; letter-spacing: 1.5px;
+    color: var(--accent2); margin: 44px 0 14px;
+    display: flex; align-items: baseline; gap: 12px;
+  }
+  h2 .num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem; color: var(--cyan); letter-spacing: 1px;
+  }
+  p { margin-bottom: 14px; color: var(--text); }
+  ul { margin: 0 0 14px 0; padding-left: 0; list-style: none; }
+  ul li {
+    position: relative; padding-left: 22px; margin-bottom: 10px;
+    color: var(--text);
+  }
+  ul li::before {
+    content: ''; position: absolute; left: 0; top: 13px;
+    width: 12px; height: 1px; background: var(--accent);
+  }
+  strong { color: var(--white); font-weight: 500; }
+  a { color: var(--accent2); }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative; z-index: 1;
+    padding: 40px 48px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+    background: var(--navy);
+  }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 3px; color: var(--white); }
+  .footer-logo span { color: var(--accent); }
+  footer p { font-size: 0.72rem; color: var(--muted); font-family: 'Space Mono', monospace; margin: 0; }
+  .footer-links { display: flex; gap: 22px; flex-wrap: wrap; }
+  .footer-links a { text-decoration: none; color: var(--muted); font-size: 0.7rem; font-family: 'Space Mono', monospace; letter-spacing: 1px; transition: color 0.3s; }
+  .footer-links a:hover { color: var(--accent2); }
+
+  @media (max-width: 700px) {
+    .topbar { padding: 14px 20px; }
+    .legal-wrap { padding: 56px 20px 80px; }
+    footer { padding: 32px 20px; flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="logo">Nakli<span>GOO</span></a>
+  <a href="index.html" class="back-link">← Ana Sayfa</a>
+</header>
+
+<main class="legal-wrap">
+  <p class="eyebrow">//Gizlilik</p>
+  <h1>NakliGOO İnternet Sitesi Gizlilik/Çerez/Kişisel Verilerin Korunması Politikası</h1>
+  <p class="updated">Son güncelleme: Haziran 2026</p>
+
+  <p class="intro">MOTARABA OTOMOTİV HİZMETLERİ LOJİSTİK TİCARET A.Ş. (Şirket – Veri Sorumlusu) tarafından işletilen motoraba.com, nakligoo.com internet sitesini ve mobil uygulamalarımızı ziyaret edenlerin (Veri Sahibi) gizliliğini korunması Şirketimizin önde gelen prensiplerindendir.</p>
+  <p class="intro">İnternet Sitesi Gizlilik/Çerez/Kişisel Verilerin Korunması Politikası (Politika) ile;</p>
+  <p>(A) Veri Sahiplerinin kişisel verilerinin işlenmesi,</p>
+  <p>(B) Çerez Politikası,</p>
+  <p>(C) İnternet Sitesi Gizlilik Politikası’nın yürürlüğü</p>
+  <p> hakkında açıklamalar yapılmaktadır.</p>
+  <p class="intro">Şirketimizin internet sitesini kullandığınız andan itibaren sizden toplanan tüm bilgileri bizim belirttiğimiz şekilde ve nedenlerle, İnternet Sitesi Gizlilik/Çerez/Kişisel Verilerin Korunması Politikasında anlatıldığı gibi kullanmamızı kabul etmiş olmaktasınız. Aşağıda ayrıntılı olarak izah edilen amaçlar için elde edilen bilgiler, tamamen sizin özgür iradenizle tarafımıza sağlanmaktadır. Bu Kişisel Bilgileri bize verip vermemekte kullanıcılar (veri sahipleri) serbesttir.</p>
+  <p class="intro">İnternet sitemiz 18 yaş altındaki çocuklar için uygun değildir. Eğer bir veli çocuğunun siteye kendi rızası olmadan kişisel bilgi girdiğini fark eder ise bu kişisel bilgileri şirketimize site üzerinden iletebilir. Şirketimiz bilerek 18 yaş altındaki çocuklardan bilgi talep etmemektedir. 18 yaşın altındaki bir kullanıcının şirketimiz ile kişisel bilgi paylaştığı şirketimizce fark edilirse, bu bilgileri sistemden silinecektir.</p>
+
+  <h2>A. VERİ SAHİPLERİNİN KİŞİSEL VERİLERİNİN İŞLENMESİ</h2>
+  <p class="intro">İnternet Sitemizi ziyaret eden ziyaretçilerimize aşağıda yer alan konularda bilgilendirme yapılmaktadır:</p>
+  <ul>
+    <p class="intro"><strong>1. Kişisel verilerin işlenme amacı</strong></p>
+    <p class="intro"><strong>2. Kişisel verilerin aktarıldığı taraflar ve aktarım amacı</strong></p>
+    <p class="intro"><strong>3. Kişisel verilerinizin toplanma yöntemi ve hukuki sebebi</strong></p>
+    <p class="intro"><strong>4. Veri Sahiplerinin hakları</strong></p>
+    <p class="intro"><strong>5. Veri Sahiplerinin kişisel verilerinin güvenliğinin sağlanmasına yönelik alınan tedbirler</strong></p>
+  </ul>
+  <p class="intro">İş bu İnternet Sitesi Gizlilik/Çerez/Kişisel Verilerin Korunması Politikası'nda kullanılan "Kişisel Bilgiler" terimi sizi tanımlayabilecek ad-soyadınız, doğum yeriniz, doğum tarihiniz, anne ve baba adınız, posta adresiniz, e-posta adresiniz ve bunlarla sınırlı olmamak kaydıyla kredi kartı bilgileriniz, kimlik bilgileriniz gibi bilgileri ifade etmektedir. İnternet sitemizi ziyaret etmeniz sırasında elde edilen kişisel veriler Şirketimiz tarafından 6698 sayılı Kişisel Verilerin Korunması Kanunu <strong>(“Kanun”)</strong> uyarınca aşağıda açıklanan kapsamda faaliyet alanlarımız ile bağlantılı ve ölçülü olarak işlenebilecek, yurt içi ve yurtdışındaki üçüncü kişilere aktarılabilecek, saklanabilecek, anonimleştirilebilecek ve sınıflandırılabilecektir.</p>
+  
+   <p class="intro"><strong>1. KİŞİSEL VERİLERİN İŞLENME AMACI</strong></p>
+   <p class="intro">İnternet Sitemizi ziyaret etmeniz dolayısıyla elde edilen kişisel verileriniz aşağıda sıralanan amaçlarla şirketimiz tarafından Kişisel Verilerin Korunması Kanunu’nun 5. ve 6. maddelerine uygun olarak işlenebilecektir.</p>
+   <p class="intro">Veri sorumlusu olarak Şirketimiz tarafından kişisel verileriniz;</p>
+   <ul>
+     <li>Taleplerinize daha hızlı cevap vermek ve sizlerle olan iletişimimizi geliştirerek sizlere daha iyi hizmet vermek</li>
+     <li>Sizleri ürünlerimiz hakkında bilgilendirebilmek</li>
+     <li>Ürünlerimiz hakkında memnuniyetinizi ölçmek</li>
+     <li>İstekleriniz ve ihtiyaçlarınız doğrultusunda ürünlerimizi geliştirmek ve çeşitlendirmek</li>
+     <li>Gerekli kalite ve standart denetimlerimizi yapabilmek</li>
+     <li>Şirketimizin ticari ve iş stratejilerinin belirlenmesi ve uygulanmasını sağlamak</li>
+     <li>Şirketimiz ürün ve hizmetlerinin sunulabilmesi, bu konuda aldığınız/alacağınız ürün ve hizmete ilişkin iletişim kurulabilmesi</li>
+     <li>İzin vermiş olmanız durumunda pazarlama faaliyetlerinde kullanılabilmesi, ürün/hizmet teklifi</li>
+     <li>Raporlama, istatistik, satış izleme</li>
+     <li>Şirketimiz ve bağlı olduğu grup şirketlerimizde mevcut veya yeni ürün çalışmaları ve olası müşteri tespitiu</li> 
+     <li>Gerçekleştirilen iş başvuru bilgilerinin değerlendirmeye alınması</li>
+   </ul>
+   v.b. amaçlar ile şirketimiz faaliyetleri ile ilişkili olarak işlenebilecektir.
+   </p>
+
+
+   <p class="intro"><strong>2. KİŞİSEL VERİLERİNİZİN AKTARILDIĞI TARAFLAR VE AKTARIM AMACI</strong></p>
+   <p class="intro">İnternet sitemizi ziyaret etmeniz dolayısıyla elde edilen kişisel verileriniz yukarıda sayılan amaçlar dahilinde, "Kişisel Verilerin Korunması Kanunu"na ve yürürlükte olan mevzuata uygun olarak, Grup şirketleri ile paylaşılabileceği gibi, sayılanlar ile sınırlı olmamak üzere; iş ortaklarımız, iş bağlantılarımız, ifa yardımcılarımız ve alt yüklenicilerimiz ile sunduğumuz ürün ve hizmetin amacı doğrultusunda ya da düzenleyici denetleyici kurumlar ve resmi mercilerle ilgili mevzuatın öngördüğü durumlarda yurt içine veya yurt dışına Kişisel Verilerin Korunması Kanunu’nun 8. ve 9. maddelerinde belirtilen kişisel veri işleme şartları ve amaçları dahilinde aktarılabilecektir.</p>
+   <p class="intro">Ayrıca şirketimiz tarafından kişisel verilerin yurtdışına yukarıda yer verilen amaçlarla;</p>
+   <ul>
+     <li>Veri sahibinin açık rızasının bulunması halinde veya</li>
+     <li>Veri sahibinin açık rızasının bulunmadığı ancak yukarıda belirtilen diğer şartlardan bir veya birkaçının karşılandığı hallerde</li>
+     <li>Verilerin aktarıldığı ülkede yeterli Veri Korunması bulunması ve</li>
+     <li>Verilerin aktarıldığı ülkede yeterli Veri Korunması bulunmaması durumunda şirketimizin ilgili yabancı ülkedeki veri sorumlusu ile birlikte yeterli korunmasını yazılı olarak taahhüt etmesi ve Kişisel Verileri Korunması Kurulu’nun izninin alınması kaydı ile aktarılabilmektedir.</li>
+   </ul></p>
+
+   <p class="intro"><strong>3. KİŞİSEL VERİLERİNİZİN TOPLANMA YÖNTEMİ VE HUKUKİ SEBEBİ</strong></p>
+   <p class="intro">İnternet sitemizi veya mobil uygulamamızı ziyaretiniz kapsamında kişisel verileriniz Kişisel Verilerin Korunması Kanunu’nda yer alan veri işleme şartlarına uygun olarak İnternet Sitemizi veya mobil uygulamamızı ziyaret etmeniz dolayısıyla teknik iletişim dosyaları olan çerezler (cookies) vasıtasıyla toplanmaktadır.</p>
+
+   <p class="intro"><strong>4. VERİ SAHİPLERİNİN HAKLARI</strong></p>
+   <p class="intro">Kişisel verilerinizin şirketimiz tarafından işlenmesi ile ilgili olarak; Kişisel Verilerin Korunması Kanun’un 11. maddesi uyarınca aşağıdaki haklara sahip olduğunuzu bildiririz:</p>
+   <ul>
+     <li>Kişisel verilerinizin işlenip işlenmediğini öğrenme</li>
+     <li>Kişisel verilerinizin işlenmişse buna ilişkin bilgi talep etme</li>
+     <li>Kişisel verilerinizin işlenme amacını ve bunların amacına uygun kullanılıp kullanılmadığını öğrenme</li>
+     <li>Yurt içinde veya yurt dışında kişisel verilerinizin aktarıldığı üçüncü kişileri bilme</li>
+     <li>Kişisel verilerinizin eksik veya yanlış işlenmiş olması halinde bunların düzeltilmesini isteme</li>
+     <li>KVKK mevzuatında öngörülen şartlar çerçevesinde kişisel verilerinizin silinmesini veya yok edilmesini isteme</li>
+     <li>Eksik veya yanlış verilerin düzeltilmesi ile kişisel verilerinizin silinmesi veya yok edilmesini talep ettiğinizde, bu durumun kişisel verilerinizin aktarıldığı üçüncü kişilere bildirilmesini isteme</li>
+     <li>İşlenen verilerin münhasıran otomatik sistemler vasıtasıyla analiz edilmesi suretiyle aleyhinize bir sonucun ortaya çıkmasına itiraz etme</li>
+   </ul>
+   haklarınız bulunmaktadır.</p>
+   <p class="intro">Bu haklarınızı kullanmak ile ilgili talebinizi yazılı olarak veya Kişisel Verileri Korunması Kurulu tarafından başka bir yöntem belirlenmesi halinde bu yönteme uygun olarak şirketimize iletebilirsiniz.</p>
+   <p class="intro">Yazılı talebinizi şirketimizin <strong>Mimar Sinan Mah. 48018. Sok. İspark 7 B Blok No:3/A Onikişubat/Kahramanmaraş</strong> adresine ıslak imzalı olacak şekilde noter kanalıyla, iadeli taahhütlü posta yoluyla veya <a href="mailto:destek@motoraba.com">[destek@motoraba.com]</a> kayıtlı elektronik posta adresimize güvenli elektronik imza ile imzalanmış olarak gönderebilirsiniz.</p>
+   <p class="intro">Kişisel veri sahibi olarak sahip olduğunuz ve yukarıda belirtilen haklarınızı kullanmak için yapacağınız ve kullanmayı talep ettiğiniz hakka ilişkin açıklamalarınızı içeren başvuruda; talep ettiğiniz hususun açık ve anlaşılır olması, talep ettiğiniz konunun şahsınız ile ilgili olması veya başkası adına hareket ediyor iseniz bu konuda özel olarak yetkili olmanız ve yetkinizi belgelendirilmesi, başvurunun kimlik ve adres bilgilerini içermesi ve başvuruya kimliğinizi tevsik edici belgelerin eklenmesi gerekmektedir.</p>
+   <p class="intro">Talebinizin niteliğine göre en geç otuz gün içinde başvurularınız ücretsiz olarak sonuçlandırılacaktır; ancak işlemin ayrıca bir maliyet gerektirmesi halinde Kişisel Verileri Korunması Kurulu tarafından belirlenecek tarifeye göre tarafınızdan ücret talep edilebilecektir.</p>
+
+   <p class="intro"><strong>5. VERİ SAHİPLERİNİN KİŞİSEL VERİLERİNİN GÜVENLİĞİNİN SAĞLANMASINA YÖNELİK ALINAN TEDBİRLER</strong></p>
+   <p class="intro">Şirketimizin kişisel verilerin korunmasına ve veri güvenliğinin sağlanmasına yönelik olmak üzere, Kişisel Verilerin Korunması Kanunu’nun 12. maddesine uygun olarak güvenlik düzeyini temin etmeye yönelik gerekli her türlü teknik ve idari tedbirleri almaktadır.</p>
+   <p class="intro">Kişisel verilerin korunması, şirketimiz için önemli bir konudur. Şirketimiz, kişisel verilere yetkisiz erişim veya bu bilgilerin kaybı, hatalı kullanımı, ifşa edilmesi, değiştirilmesi veya imha edilmesine karşı korunması için gerekli önlemleri almaktadır. Şirketimiz, kişisel verilerinizi gizli tutmayı, gizliliğin sağlanması ve güvenliği için gerekli teknik ve idari her türlü tedbiri alarak gerekli özeni göstermektedir.</p>
+   <p class="intro">Şirketimizin gerekli bilgi güvenliği önlemlerini almasına karşın, internet sitesine ve sisteme yapılan saldırılar sonucunda kişisel verilerin zarar görmesi veya üçüncü kişilerin eline geçmesi durumunda, Şirketimiz bu durumu derhal sizlere ve Kişisel Verileri Korunması Kurulu’na bildirecek ve gerekli önemleri alacaktır.</p>
+   <p class="intro">Kredi kartı ile ilgili bilgiler web sitemizden ve mobil uygulamamızdan bağımsız olarak SSL (Secure Sockets Layer) protokolü ile şifrelenip sorgulanmak üzere ilgili bankaya ulaştırılır. Kredi kartının kullanılabilirliği onaylandığı takdirde alışverişinize devam edilebilmektedir. Kredi kartıyla ilgili hiçbir bilgi site tarafından görüntülenemediğinden ve kaydedilmediğinden, üçüncü şahısların herhangi bir koşulda bu bilgileri ele geçirmesi mümkün değildir.</p>
+
+   <h2>B. ÇEREZ (COOKİE'LER) POLİTİKASI</h2>
+   <p class="intro">Şirketimizin internet sitesinden ve mobil uygulamasından en iyi şekilde faydalanabilmeniz ve kullanıcı deneyiminizi geliştirebilmek için sitemizde Çerez (Cookie) kullanılmaktadır. Çerez kullanılmasını kabul etmek istemiyorsanız tarayıcınızın ayarlarından Çerezleri silebilir ya da engelleyebilirsiniz. Tarayıcınızdan Çerez ayarlarınızı değiştirmediğiniz sürece bu şirketimiz internet sitesinde ve mobil uygulamasında çerez kullanımını kabul ettiğinizi varsayılacaktır.</p>
+   <p class="intro"><strong>1. ÇEREZ (COOKİE) NEDİR VE NEDEN KULLANILMAKTADIR?</strong></p>
+   <p class="intro">Çerezler, ziyaret ettiğiniz internet siteleri tarafından tarayıcılar aracılığıyla cihazınıza veya ağ sunucusuna depolanan küçük metin dosyalarıdır.</p>
+   <p class="intro">Çerezler, bir dosya indirdiğinizde veya bir web sitesini ziyaret ettiğinizde sabit diskinize kaydedilen küçük bir metin dosyasıdır. Bir başka ifade ile, web sitesi tercihleriniz veya profil bilgileri gibi tarama bilgilerini saklayan daha önce ziyaret ettiğiniz web siteleri tarafından oluşturulan dosyalardır. </p>
+   <p class="intro">Dolayısıyla çerezler, size daha iyi hizmet verebilmemiz amacı ile ilgilendiğiniz ürün gruplarına ilişkin kampanya bilgilerini aktarmak ve ürün tanıtımlarını yapmak amacı ile kullanılır.</p>
+
+   <p class="intro"><strong>2. İNTERNET SİTEMİZDE KULLANILAN ÇEREZ TÜRLERİ</strong></p>
+   <p class="intro">Sitemizde (mobil uygulamaları dahil tüm dijital platformlarında) muhtelif türde çerezler kullanılmaktadır. Bunlar;</p>
+   <ul>
+     <li>Oturum Çerezleri (Session Cookies)</li>
+     <li>Kalıcı Çerezler (Persistent Cookies)</li>
+     <li>Teknik Çerezler (Technical Cookies)</li>
+     <li>Otantikasyon Çerezleri (Authentication Cookies)</li>
+     <li>Flash Çerezleri (Flash Cookies)</li>
+     <li>Kişiselleştirme Çerezleri (Customization Cookies)</li>
+     <li>Analitik Çerezler (Analytical Cookies)</li>
+    </ul>
+
+   <h2>C. İNTERNET SİTESİ GİZLİLİK/ÇEREZ/KİŞİSEL VERİLERİN KORUNMASI POLİTİKASI YÜRÜRLÜĞÜ</h2>
+   <p class="intro">İnternet Sitesi Gizlilik/Çerez/Kişisel Verilerin Korunması Politikası 01.06.2026 tarihlidir. Politika’nın tümünün veya belirli maddelerinin yenilenmesi veya değiştirilmesi durumunda Politika’nın yürürlük tarihi güncellenecektir.</p>
+   <p class="intro">Politika Şirketimiz internet sitesinde <strong>(motoraba.com)</strong> ve mobil uygulamamızda yayımlanır ve kişisel veri sahiplerinin talebi üzerine ilgili kişilerin erişimine sunulur.</p>
+
+   <h2>D. İLETİŞİM</h2>
+   <p class="intro">Gizlilikle ilgili soru ve talepleriniz için <a href="mailto:destek@motoraba.com">[destek@motoraba.com]</a> adresinden bizimle iletişime geçebilirsiniz.</p>
+</main>
+
+<footer>
+  <a href="#top" class="logo">Nakli<span>GOO</span></a>
+  <p>NakliGOO, Motoraba Otomotiv Hizmetleri Lojistik Ticaret A.Ş. markasıdır.</p>
+  <p>© 2026 Motoraba. Tüm hakları saklıdır.</p>
+  <div class="footer-links">
+    <a href="gizlilik-politikasi.html">Gizlilik Politikası</a>
+    <a href="kvkk.html">KVKK</a>
+    <!-- <a href="#">Koşullar</a> --> <!-- Koşullar sekmesini şimdilik kaldırdım. -->
+    <a href="iletisim.html">İletişim</a>
+    <a href="delaccount.html">Hesap Silme</a>
+  </div>
+</footer>
+</body>
+</html>
